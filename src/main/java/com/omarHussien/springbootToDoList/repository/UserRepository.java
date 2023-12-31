@@ -1,0 +1,7 @@
+package com.omarHussien.springbootToDoList.repository;
+
+import com.omarHussien.springbootToDoList.model.User;
+import org.springframework.data.repository.CrudRepository;
+
+public interface UserRepository extends CrudRepository<User,Long> {
+}
