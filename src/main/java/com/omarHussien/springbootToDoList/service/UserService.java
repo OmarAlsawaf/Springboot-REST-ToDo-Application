@@ -2,6 +2,7 @@ package com.omarHussien.springbootToDoList.service;
 
 import com.omarHussien.springbootToDoList.model.User;
 import com.omarHussien.springbootToDoList.repository.UserRepository;
+import com.omarHussien.springbootToDoList.requests.UserRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +19,9 @@ public class UserService {
         }catch (IllegalArgumentException e){
             return null;
         }
+    }
 
-
+    public User addUser(UserRequest request){
+        return userRepository.save(new User(request.getUsername(),request.getPassword()));
     }
 }

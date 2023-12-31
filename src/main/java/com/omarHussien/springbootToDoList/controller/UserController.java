@@ -3,6 +3,7 @@ package com.omarHussien.springbootToDoList.controller;
 import com.omarHussien.springbootToDoList.model.User;
 import com.omarHussien.springbootToDoList.repository.TaskRepository;
 import com.omarHussien.springbootToDoList.repository.UserRepository;
+import com.omarHussien.springbootToDoList.requests.UserRequest;
 import com.omarHussien.springbootToDoList.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,5 +24,12 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(userService.getUserById(id), HttpStatus.OK);
+    }
+
+    @PostMapping("/add")
+    public ResponseEntity<Object> addUser(@RequestBody UserRequest request){
+        User newUser = userService.addUser(request);
+        return new ResponseEntity<>(newUser,HttpStatus.ACCEPTED);
+
     }
 }

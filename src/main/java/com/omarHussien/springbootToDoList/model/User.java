@@ -22,4 +22,9 @@ public class User {
     private String password;
     @OneToMany
     private List<Task> taskList = new ArrayList<>();
+
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
 }
