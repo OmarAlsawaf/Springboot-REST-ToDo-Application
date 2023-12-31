@@ -6,6 +6,7 @@ import com.omarHussien.springbootToDoList.requests.UserRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -23,5 +24,9 @@ public class UserService {
 
     public User addUser(UserRequest request){
         return userRepository.save(new User(request.getUsername(),request.getPassword()));
+    }
+
+    public void deleteUser(long id){
+        userRepository.delete(userRepository.findById(id).orElseThrow(()->new NoSuchElementException()));
     }
 }

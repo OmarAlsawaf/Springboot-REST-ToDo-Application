@@ -29,7 +29,12 @@ public class UserController {
     @PostMapping("/add")
     public ResponseEntity<Object> addUser(@RequestBody UserRequest request){
         User newUser = userService.addUser(request);
-        return new ResponseEntity<>(newUser,HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(newUser,HttpStatus.OK);
+    }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> deleteUser(@PathVariable long id){
+        userService.deleteUser(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
