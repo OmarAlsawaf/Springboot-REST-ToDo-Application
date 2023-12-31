@@ -1,7 +1,10 @@
 package com.omarHussien.springbootToDoList.service;
 
+import com.omarHussien.springbootToDoList.model.Task;
 import com.omarHussien.springbootToDoList.model.User;
+import com.omarHussien.springbootToDoList.repository.TaskRepository;
 import com.omarHussien.springbootToDoList.repository.UserRepository;
+import com.omarHussien.springbootToDoList.requests.TaskRequest;
 import com.omarHussien.springbootToDoList.requests.UserRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +16,8 @@ import java.util.Optional;
 public class UserService {
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    TaskRepository taskRepository;
 
     public User getUserById(Long id){
         try{
@@ -29,4 +34,14 @@ public class UserService {
     public void deleteUser(long id){
         userRepository.delete(userRepository.findById(id).orElseThrow(()->new NoSuchElementException()));
     }
+
+    public void addTask(long userId , TaskRequest request){
+        User user = userRepository.findById(userId).orElseThrow(()->new NoSuchElementException());
+        Task task = new Task(request.getTitle(), request.getDescription());
+        user.getTaskList().add(task);
+        taskRepository.save(task);
+        userRepository.save(user);
+
+    }
+
 }

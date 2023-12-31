@@ -3,6 +3,7 @@ package com.omarHussien.springbootToDoList.controller;
 import com.omarHussien.springbootToDoList.model.User;
 import com.omarHussien.springbootToDoList.repository.TaskRepository;
 import com.omarHussien.springbootToDoList.repository.UserRepository;
+import com.omarHussien.springbootToDoList.requests.TaskRequest;
 import com.omarHussien.springbootToDoList.requests.UserRequest;
 import com.omarHussien.springbootToDoList.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ public class UserController {
     @PostMapping("/add")
     public ResponseEntity<Object> addUser(@RequestBody UserRequest request){
         User newUser = userService.addUser(request);
-        return new ResponseEntity<>(newUser,HttpStatus.OK);
+        return new ResponseEntity<>(newUser,HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
@@ -37,4 +38,11 @@ public class UserController {
         userService.deleteUser(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @PostMapping("/{id}/addTask")
+    public ResponseEntity<Object> addTaskToUser(@PathVariable long id , @RequestBody TaskRequest request){
+        userService.addTask(id,request);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
 }
