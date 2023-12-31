@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -18,6 +20,12 @@ public class UserController {
     UserService userService;
     @Autowired
     private TaskRepository taskRepository;
+
+
+    @GetMapping
+    public ResponseEntity<List<User>> getAllUsers(){
+        return new ResponseEntity<>(userService.getAllUsers(),HttpStatus.OK);
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable long id){
@@ -39,10 +47,22 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PostMapping("/{id}/addTask")
+    @PostMapping("/{id}/tasks")
     public ResponseEntity<Object> addTaskToUser(@PathVariable long id , @RequestBody TaskRequest request){
         userService.addTask(id,request);
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @PutMapping("/tasks/{id}")
+    public ResponseEntity<Object> markTaskAsComplete(@PathVariable long id){
+        userService.markTaskAsComplete(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping("{userId}/tasks/{taskId}")
+    public ResponseEntity<Object> deleteTask(@PathVariable long userId ,@PathVariable long taskId){
+        userService.deleteTask(taskId,userId);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

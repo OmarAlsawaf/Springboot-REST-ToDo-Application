@@ -20,7 +20,7 @@ public class User {
     private Long id;
     private String username;
     private String password;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Task> taskList = new ArrayList<>();
 
     public User(String username, String password) {

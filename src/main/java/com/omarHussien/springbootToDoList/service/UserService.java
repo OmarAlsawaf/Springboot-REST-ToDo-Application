@@ -9,6 +9,8 @@ import com.omarHussien.springbootToDoList.requests.UserRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -18,6 +20,14 @@ public class UserService {
     UserRepository userRepository;
     @Autowired
     TaskRepository taskRepository;
+
+    public List<User> getAllUsers(){
+        List<User> usersList = new ArrayList<>();
+        for (User user : userRepository.findAll()){
+            usersList.add(user);
+        }
+        return usersList;
+    }
 
     public User getUserById(Long id){
         try{
@@ -42,6 +52,19 @@ public class UserService {
         taskRepository.save(task);
         userRepository.save(user);
 
+    }
+
+    public void markTaskAsComplete(long taskId){
+        Task task = taskRepository.findById(taskId).orElseThrow(()->new NoSuchElementException());
+        task.setIsCompleted(Boolean.TRUE);
+        taskRepository.save(task);
+    }
+
+    public void deleteTask(long taskId,long userId){
+        Task task = taskRepository.findById(taskId).orElseThrow(()->new NoSuchElementException());
+        User user = userRepository.findById(userId).orElseThrow(()->new NoSuchElementException());
+        user.getTaskList().remove(task);
+        taskRepository.delete(task);
     }
 
 }
